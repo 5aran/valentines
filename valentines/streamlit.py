@@ -52,15 +52,14 @@ if st.session_state["PHASE"] < 2:
                             0.5,
                             "  \nwhere people flaunt their luscious hair, lathered in coconut oil,",
                             0.5,
-                            "  \naccuses you of being the",
-                            0.5,
-                            "  \n",
-                            0.5,
-                            "  \naccuses you of being the",
-                            0.5,
-                            "  \naccuses you of being the",
+                            "  \nis filing a case against you 🫵🏻 !",
                             1,
-                            "is now in session",
+                            "  \n For being too pretty",
+                            0.5,
+                            "  \nAnd seducing a ward of the State",
+                            0.5,
+                            "  \none Mr. Saran K",
+                            2,
                         ]
                     )
                 )
