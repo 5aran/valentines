@@ -246,3 +246,6 @@ elif st.session_state["PHASE"] == "Argumentation":
             )
         )
     st.session_state.messages.append(AIMessage(content=response))
+
+elif st.session_state["PHASE"] == "End":
+    st.header("I LOVE YOU POOKIE")
