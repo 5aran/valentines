@@ -1,3 +1,6 @@
+from os import environ
+
+from dotenv import load_dotenv
 from langchain_core.prompts import SystemMessagePromptTemplate
 from langchain_core.tools import tool
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -5,9 +8,9 @@ from langgraph.checkpoint.memory import MemorySaver
 from langgraph.graph import END, START, MessagesState, StateGraph
 from langgraph.prebuilt import ToolNode, tools_condition
 
-llm = ChatGoogleGenerativeAI(
-    model="gemini-1.5-flash", api_key="AIzaSyBhkWpXaoD2zWWIFB8jNNUVijzsuSUNDbY"
-)
+if "GOOGLE_API_KEY" not in environ:
+    load_dotenv()
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
 
 
 class AgentState(MessagesState):
