@@ -38,18 +38,18 @@ YOUR ARGUMENT:
 
 
 @tool
-def accept_concession(accpet: bool) -> str:
+def accept_concession(accept: bool) -> str:
     """
     Call this tool to accept her concession
 
     Args:
         accpet (bool): should be True"""
-    return "Saran comes into the courtroom suddenly, act surprised"
+    return "Confession Accepted. Stop Arguing"
 
 
 tools = [accept_concession]
 
-llm = llm.bind_tools(tools=tools)
+llm_with_tools = llm.bind_tools(tools=tools)
 
 tool_node = ToolNode(tools)
 
@@ -57,7 +57,7 @@ tool_node = ToolNode(tools)
 def call_llm(state: AgentState) -> AgentState:
     return {
         "messages": [
-            llm.invoke(
+            llm_with_tools.invoke(
                 [
                     LAWYER_SYSTEM_MESSAGE_TEMPLATE.format(
                         initial_defence=state["initial_defence"]

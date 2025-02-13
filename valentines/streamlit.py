@@ -36,7 +36,11 @@ async def stream_response(messages, initial_defence, thread_id):
         ):
             yield event["data"]["chunk"].content
         elif event["event"] == "on_tool_start" and event["name"] == "accept_concession":
-            st.session_state["PHASE"] = "FINAL"
+            st.session_state["PHASE"] = "Concession"
+            st.rerun()
+        elif event["event"] == "on_tool_end" and event["name"] == "accept_concession":
+            st.session_state["PHASE"] = "Concession"
+            st.rerun()
 
 
 # Check which phase she is in
@@ -134,20 +138,29 @@ elif st.session_state["PHASE"] == "Argumentation":
         logger.info(f"bot argues: {response}")
     st.session_state.messages.append(AIMessage(content=response))
 
-elif st.session_state["PHASE"] == "FINAL":
+elif st.session_state["PHASE"] == "Concession":
     st.title("Will you be my Valentine Princess? 💝")
     st.markdown(
-        """Now that you've confessed to your witch-like charm over my heart
-You have to concede to one of the following? ......
-......as an ailment to my aching heart? 🥺👉🏻👈🏻"""
+        """Now that you've confessed to your witch-like charm over my heart\nYou have to concede to one of the following? ......\n......as an ailment to my aching heart? 🥺👉🏻👈🏻"""
     )
     cols = st.columns(3)
     with cols[0]:
-        if hand := st.button(label="Hand Holding Rights"):
-            st.write("assa")
+        if hand := st.button(label="Hand Holding Privileges"):
+            st.session_state["PHASE"] = "Final"
+            st.rerun()
     with cols[1]:
-        if cheek := st.button(label="Cheek Pinching/Squishing Rights"):
-            st.write("assa")
+        if cheek := st.button(label="Cheek Caressing Privileges"):
+            st.session_state["PHASE"] = "Final"
+            st.rerun()
     with cols[2]:
         if poem := st.button(label="A Poem"):
-            st.write("assa")
+            st.session_state["PHASE"] = "Final"
+            st.rerun()
+
+elif st.session_state["PHASE"] == "Final":
+    st.markdown(
+        """
+# 🫂
+
+... thanks"""
+    )
