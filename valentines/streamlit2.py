@@ -7,7 +7,7 @@ from os import listdir
 from uuid import uuid4
 
 import streamlit as st
-from agents import agent
+from agents import agent1, agent2
 from langchain_core.messages import AIMessage, HumanMessage
 from PIL import Image
 from utils import type_writer
@@ -27,27 +27,24 @@ if "PHASE" not in st.session_state:
 if "thread_id" not in st.session_state:
     st.session_state["thread_id"] = uuid4()
 
+if "agent" not in st.session_state:
+    st.session_state["agent"] = agent1
 
-@st.dialog(title="Evidence #1")
+
+@st.dialog(title="A Gallery of Food mzmochi has reccommended to Saran")
 def show_food():
-    st.markdown("Look at these. Look how you've fattened him up with love!")
-    st.image(st.session_state["food_pics"], use_container_width=True)
+    st.image(st.session_state["food_pics"], width=200)
 
 
-@st.dialog(title="Evidence #1")
+@st.dialog(title="Sunscreen recommendation from mzmochi")
 def show_sunscreen():
-    st.markdown("Is this not love??")
     st.image(
-        "images/sunscreen/WhatsApp Image 2025-02-09 at 6.18.59 PM(6).jpeg",
-        use_container_width=True,
+        "images/sunscreen/WhatsApp Image 2025-02-09 at 6.18.59 PM(6).jpeg", width=200
     )
 
 
 async def stream_response(messages, initial_defence, thread_id):
-    if len(st.session_state["messages"]) > 15:
-        st.session_state["PHASE"] = "Saran Interuption"
-        st.rerun()
-    async for event in agent.astream_events(
+    async for event in st.session_state["agent"].astream_events(
         input={
             "messages": messages,
             "initial_defence": initial_defence,
@@ -65,6 +62,7 @@ async def stream_response(messages, initial_defence, thread_id):
             event["event"] == "on_tool_end"
             and event["name"] == "show_food_recommendations"
         ):
+            st.session_state["agent"] = agent2
             show_food()
         elif (
             event["event"] == "on_tool_end"
@@ -183,12 +181,12 @@ elif st.session_state["PHASE"] == "Lawyer Reveal":
                 st.write_stream(
                     type_writer(
                         phrases=[
-                            # ".....",
-                            # 0.5,
-                            # f"{mock_initial_defence} seriously?",
-                            # 1,
-                            # "  \nYou really think you can win with that?",
-                            # 1.5,
+                            ".....",
+                            0.5,
+                            f"{mock_initial_defence} seriously?",
+                            1,
+                            "  \nYou really think you can win with that?",
+                            1.5,
                             # "  \nThe audacity",
                             # 0.5,
                             # "  \nThe gall",
@@ -231,10 +229,10 @@ elif st.session_state["PHASE"] == "Lawyer Reveal":
                 st.write_stream(
                     type_writer(
                         phrases=[
-                            # "  \nTO TALK BACK ! ! !",
-                            # 2,
+                            "  \nTO TALK BACK ! ! !",
+                            2,
                             "  \nI'll be representing this poor boy you siren!",
-                            # 2,
+                            2,
                         ]
                     )
                 )
@@ -252,7 +250,7 @@ elif st.session_state["PHASE"] == "Argumentation":
         elif isinstance(message, AIMessage):
             with st.chat_message("ai"):
                 st.markdown(message.content)
-    if prompt := st.chat_input("SPEAK UP BITCH!!!"):
+    if prompt := st.chat_input("What do you have to say for yourself!"):
         logger.info(f"mzmochi argues: {prompt}")
         # Display user message in chat message container
         with st.chat_message("user"):
@@ -280,8 +278,7 @@ elif st.session_state["PHASE"] == "Saran Interuption":
                     "  \nA lone figure enters the courtroom",
                     "  \nHis 6 foot eleven inch body casts a shadow which engulfs the room",
                     "  \n'..... ...... no one'",
-                    "  \n### 'NO ONE TALKS TO POOKIE LIKE THAT'",
-                    "  \nIt's Saran!",
+                    "  \n### 'NO ONE TALKS TO POOKIE LIKE THAT'  \nIt's Saran!",
                 ],
                 letters_per_sec=35,
             )
