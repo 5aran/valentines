@@ -251,7 +251,7 @@ elif st.session_state["PHASE"] == "Argumentation":
         elif isinstance(message, AIMessage):
             with st.chat_message("ai"):
                 st.markdown(message.content)
-    if prompt := st.chat_input("SPEAK UP BITCH!!!"):
+    if prompt := st.chat_input("Argue"):
         logger.info(f"mzmochi argues: {prompt}")
         # Display user message in chat message container
         with st.chat_message("user"):
