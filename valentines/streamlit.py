@@ -3,23 +3,15 @@
 # and make her concede her case
 
 import logging
-from os import listdir
 from uuid import uuid4
 
 import streamlit as st
 from agents import agent
 from langchain_core.messages import AIMessage, HumanMessage
-from PIL import Image
 from utils import type_writer
 
 logger = logging.getLogger()
 logger.level = logging.INFO
-
-# load all the images in images directory
-if "food_pics" not in st.session_state:
-    st.session_state["food_pics"] = [
-        Image.open(f"images/food/{i}") for i in listdir("images/food")
-    ]
 
 if "PHASE" not in st.session_state:
     st.session_state["PHASE"] = "Summoning"
@@ -28,25 +20,7 @@ if "thread_id" not in st.session_state:
     st.session_state["thread_id"] = uuid4()
 
 
-@st.dialog(title="Evidence #1")
-def show_food():
-    st.markdown("Look at these. Look how you've fattened him up with love!")
-    st.image(st.session_state["food_pics"], use_container_width=True)
-
-
-@st.dialog(title="Evidence #1")
-def show_sunscreen():
-    st.markdown("Is this not love??")
-    st.image(
-        "images/sunscreen/WhatsApp Image 2025-02-09 at 6.18.59 PM(6).jpeg",
-        use_container_width=True,
-    )
-
-
 async def stream_response(messages, initial_defence, thread_id):
-    if len(st.session_state["messages"]) > 15:
-        st.session_state["PHASE"] = "Saran Interuption"
-        st.rerun()
     async for event in agent.astream_events(
         input={
             "messages": messages,
@@ -61,93 +35,61 @@ async def stream_response(messages, initial_defence, thread_id):
             and event["metadata"]["langgraph_node"] == "call_llm"
         ):
             yield event["data"]["chunk"].content
-        elif (
-            event["event"] == "on_tool_end"
-            and event["name"] == "show_food_recommendations"
-        ):
-            show_food()
-        elif (
-            event["event"] == "on_tool_end"
-            and event["name"] == "show_skincare_recommendation"
-        ):
-            show_sunscreen()
-        elif event["event"] == "on_tool_end" and event["name"] == "signal_saran":
-            st.session_state["PHASE"] = "Saran Interuption"
-            st.rerun()
+        elif event["event"] == "on_tool_start" and event["name"] == "accept_concession":
+            st.session_state["PHASE"] = "FINAL"
 
 
 # Check which phase she is in
 if st.session_state["PHASE"] == "Summoning":
     if "initial_defence" not in st.session_state:
-        st.markdown("## The State of Tamil Nadu ⚖️ vs. mzmochi 💅🏼")
+        st.markdown("## The State of Tamil Nadu ⚖️ vs. Nehneva ")
         cols = st.columns([1, 2.5])
         with cols[0]:
             st.image(
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT92iwTeCowFAd3glBsM0Yo7BZ3LdJk1fZWig&s",
+                "https://c.ndtvimg.com/2024-11/gv48bav_dy-chandrachud-ians_625x300_08_November_24.jpeg",
             )
         logger.info("Showing pic of CJI")
         with cols[1]:
             chat = st.empty()
-            # with chat:
-            #     st.write_stream(
-            #         type_writer(
-            #             phrases=[
-            #                 "MOCHI 😨...",
-            #                 0.5,
-            #                 "  \n.....",
-            #                 0.5,
-            #                 "  \n.....",
-            #                 0.5,
-            #                 "  \n.....",
-            #                 1,
-            #                 "  \n You have been summoned ! ! ! 😈",
-            #                 2,
-            #                 "  \n... to the Court of Love 💘",
-            #                 3,
-            #             ]
-            #         )
-            #     )
-            logger.info("Said: 'You've been sommoned to the court of love'")
-            # with chat:
-            #     st.write_stream(
-            #         type_writer(
-            #             phrases=[
-            #                 "The State of Tamil Nadu",
-            #                 0.5,
-            #                 "  \nhome of the prettiest women in the world,",
-            #                 0.5,
-            #                 "  \nwhere people flaunt their luscious hair, lathered in coconut oil,",
-            #                 0.5,
-            #                 "  \nis filing a case against you 🫵🏻 !",
-            #                 3,
-            #             ]
-            #         )
-            #     )
-            logger.info("Said: 'TN is filing a caase against you'")
-            # with chat:
-            #     st.write_stream(
-            #         type_writer(
-            #             phrases=[
-            #                 "  \n For being too pretty",
-            #                 0.5,
-            #                 "  \nAnd seducing a ward of the State",
-            #                 0.5,
-            #                 "  \none Mr. Saran K",
-            #                 3,
-            #             ]
-            #         )
-            #     )
+            with chat:
+                st.write_stream(
+                    type_writer(
+                        phrases=[
+                            "Syedah Tahniyat Sadaat Mosavi...",
+                            0.5,
+                            "  \n aka Nehneva",
+                            0.5,
+                            "  \n The State of Tamil Nadu",
+                            0.5,
+                            "  \nis filing a case against you!",
+                            3,
+                        ]
+                    )
+                )
+            logger.info("Said: 'State Of Tamil Nadu is filing a case against you'")
+            with chat:
+                st.write_stream(
+                    type_writer(
+                        phrases=[
+                            "  \n For being too pretty",
+                            0.5,
+                            "  \nAnd seducing a ward of the State",
+                            0.5,
+                            "  \none Mr. Saran K",
+                            3,
+                        ]
+                    )
+                )
             logger.info("Said: 'For being too pretty and seducing Saran'")
             with chat:
                 st.write_stream(
                     type_writer(
                         phrases=[
-                            # "  \nYou are hereby summoned to defend yourself",
-                            # 0.5,
+                            "  \nYou are hereby summoned to defend yourself",
+                            0.5,
                             "  \nAnd make your case",
-                            # 2,
+                            2,
                         ],
-                        letters_per_sec=35,
                     )
                 )
             logger.info("Said: 'Defend yourself'")
@@ -159,90 +101,11 @@ if st.session_state["PHASE"] == "Summoning":
         label_visibility="hidden",
     ):
         logger.info(f"Initial Defence Given: {initial_defence}")
-        st.session_state["PHASE"] = "Lawyer Reveal"
+        st.session_state["PHASE"] = "Argumentation"
         st.session_state["messages"] = [HumanMessage(content=initial_defence)]
         st.session_state["initial_defence_value"] = initial_defence
         st.rerun()
 
-elif st.session_state["PHASE"] == "Lawyer Reveal":
-    if "Clicked Start Argumentation" not in st.session_state:
-        # Make a mockery of her initial defence by repeating it in
-        # alteranting case
-        mock_initial_defence = ""
-        odd = True
-        for c in " ".join(st.session_state["initial_defence_value"].split()[:5]):
-            if odd:
-                mock_initial_defence = mock_initial_defence + c.upper()
-            else:
-                mock_initial_defence = mock_initial_defence + c.lower()
-            odd = not odd
-        cols = st.columns([1, 2.5])
-        with cols[1]:
-            chat = st.empty()
-            with chat:
-                st.write_stream(
-                    type_writer(
-                        phrases=[
-                            # ".....",
-                            # 0.5,
-                            # f"{mock_initial_defence} seriously?",
-                            # 1,
-                            # "  \nYou really think you can win with that?",
-                            # 1.5,
-                            # "  \nThe audacity",
-                            # 0.5,
-                            # "  \nThe gall",
-                            # 0.5,
-                            # "  \nThe gumption",
-                            # 0.5,
-                            # "  \nThe nerve",
-                            # 0.5,
-                            # "  \nThe temerity",
-                            # 0.5,
-                            # "  \nThe chutzpah",
-                            # 0.5,
-                            # "  \nThe brass",
-                            # 0.5,
-                            # "  \nThe effrontery",
-                            # 0.5,
-                            # "  \nThe impudence",
-                            # 0.5,
-                            # "  \nThe insolence",
-                            # 0.5,
-                            # "  \nThe impertinence",
-                            # 0.5,
-                            # "  \nThe rudeness",
-                            # 0.5,
-                            # "  \nThe presumption",
-                            # 0.5,
-                            # "  \nThe cheek",
-                        ]
-                    )
-                )
-                logger.info("Said: 'The presumtion....'")
-        with cols[0]:
-            st.image(
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqPP0EROzzr9W643kfKswLqmFuNfbFA4pDWA&s",
-                width=200,
-                caption="BOOM! 💥",
-            )
-        with cols[1]:
-            with chat:
-                st.write_stream(
-                    type_writer(
-                        phrases=[
-                            # "  \nTO TALK BACK ! ! !",
-                            # 2,
-                            "  \nI'll be representing this poor boy you siren!",
-                            # 2,
-                        ]
-                    )
-                )
-                logger.info("Kerry Revealed")
-    if st.button(label="Start Argumentation", key="Clicked Start Argumentation"):
-        logger.info("Start Argumentation Clicked")
-        st.session_state["PHASE"] = "Argumentation"
-        st.rerun()
 
 elif st.session_state["PHASE"] == "Argumentation":
     for message in st.session_state.messages:
@@ -252,8 +115,8 @@ elif st.session_state["PHASE"] == "Argumentation":
         elif isinstance(message, AIMessage):
             with st.chat_message("ai"):
                 st.markdown(message.content)
-    if prompt := st.chat_input("SPEAK UP BITCH!!!"):
-        logger.info(f"mzmochi argues: {prompt}")
+    if prompt := st.chat_input("Respond"):
+        logger.info(f"Nehneva argues: {prompt}")
         # Display user message in chat message container
         with st.chat_message("user"):
             st.markdown(prompt)
@@ -271,18 +134,20 @@ elif st.session_state["PHASE"] == "Argumentation":
         logger.info(f"bot argues: {response}")
     st.session_state.messages.append(AIMessage(content=response))
 
-elif st.session_state["PHASE"] == "Saran Interuption":
-    chat = st.empty()
-    with chat:
-        st.write_stream(
-            type_writer(
-                phrases=[
-                    "  \nA lone figure enters the courtroom",
-                    "  \nHis 6 foot eleven inch body casts a shadow which engulfs the room",
-                    "  \n'..... ...... no one'",
-                    "  \n### 'NO ONE TALKS TO POOKIE LIKE THAT'",
-                    "  \nIt's Saran!",
-                ],
-                letters_per_sec=35,
-            )
-        )
+elif st.session_state["PHASE"] == "FINAL":
+    st.title("Will you be my Valentine Princess? 💝")
+    st.markdown(
+        """Now that you've confessed to your witch-like charm over my heart
+You have to concede to one of the following? ......
+......as an ailment to my aching heart? 🥺👉🏻👈🏻"""
+    )
+    cols = st.columns(3)
+    with cols[0]:
+        if hand := st.button(label="Hand Holding Rights"):
+            st.write("assa")
+    with cols[1]:
+        if cheek := st.button(label="Cheek Pinching/Squishing Rights"):
+            st.write("assa")
+    with cols[2]:
+        if poem := st.button(label="A Poem"):
+            st.write("assa")
