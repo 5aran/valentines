@@ -13,7 +13,7 @@ from PIL import Image
 from utils import type_writer
 
 logger = logging.getLogger()
-logger.level = logging.INFO
+logger.level = logging.DEBUG
 
 # load all the images in images directory
 if "food_pics" not in st.session_state:
@@ -88,66 +88,65 @@ if st.session_state["PHASE"] == "Summoning":
         logger.info("Showing pic of CJI")
         with cols[1]:
             chat = st.empty()
-            # with chat:
-            #     st.write_stream(
-            #         type_writer(
-            #             phrases=[
-            #                 "MOCHI 😨...",
-            #                 0.5,
-            #                 "  \n.....",
-            #                 0.5,
-            #                 "  \n.....",
-            #                 0.5,
-            #                 "  \n.....",
-            #                 1,
-            #                 "  \n You have been summoned ! ! ! 😈",
-            #                 2,
-            #                 "  \n... to the Court of Love 💘",
-            #                 3,
-            #             ]
-            #         )
-            #     )
+            with chat:
+                st.write_stream(
+                    type_writer(
+                        phrases=[
+                            "MOCHI 😨...",
+                            0.5,
+                            "  \n.....",
+                            0.5,
+                            "  \n.....",
+                            0.5,
+                            "  \n.....",
+                            1,
+                            "  \n You have been summoned ! ! ! 😈",
+                            2,
+                            "  \n... to the Court of Love 💘",
+                            3,
+                        ]
+                    )
+                )
             logger.info("Said: 'You've been sommoned to the court of love'")
-            # with chat:
-            #     st.write_stream(
-            #         type_writer(
-            #             phrases=[
-            #                 "The State of Tamil Nadu",
-            #                 0.5,
-            #                 "  \nhome of the prettiest women in the world,",
-            #                 0.5,
-            #                 "  \nwhere people flaunt their luscious hair, lathered in coconut oil,",
-            #                 0.5,
-            #                 "  \nis filing a case against you 🫵🏻 !",
-            #                 3,
-            #             ]
-            #         )
-            #     )
+            with chat:
+                st.write_stream(
+                    type_writer(
+                        phrases=[
+                            "The State of Tamil Nadu",
+                            0.5,
+                            "  \nhome of the prettiest women in the world,",
+                            0.5,
+                            "  \nwhere people flaunt their luscious hair, lathered in coconut oil,",
+                            0.5,
+                            "  \nis filing a case against you 🫵🏻 !",
+                            3,
+                        ]
+                    )
+                )
             logger.info("Said: 'TN is filing a caase against you'")
-            # with chat:
-            #     st.write_stream(
-            #         type_writer(
-            #             phrases=[
-            #                 "  \n For being too pretty",
-            #                 0.5,
-            #                 "  \nAnd seducing a ward of the State",
-            #                 0.5,
-            #                 "  \none Mr. Saran K",
-            #                 3,
-            #             ]
-            #         )
-            #     )
+            with chat:
+                st.write_stream(
+                    type_writer(
+                        phrases=[
+                            "  \n For being too pretty",
+                            0.5,
+                            "  \nAnd seducing a ward of the State",
+                            0.5,
+                            "  \none Mr. Saran K",
+                            3,
+                        ]
+                    )
+                )
             logger.info("Said: 'For being too pretty and seducing Saran'")
             with chat:
                 st.write_stream(
                     type_writer(
                         phrases=[
-                            # "  \nYou are hereby summoned to defend yourself",
-                            # 0.5,
+                            "  \nYou are hereby summoned to defend yourself",
+                            0.5,
                             "  \nAnd make your case",
-                            # 2,
+                            2,
                         ],
-                        letters_per_sec=35,
                     )
                 )
             logger.info("Said: 'Defend yourself'")
@@ -183,39 +182,39 @@ elif st.session_state["PHASE"] == "Lawyer Reveal":
                 st.write_stream(
                     type_writer(
                         phrases=[
-                            # ".....",
-                            # 0.5,
-                            # f"{mock_initial_defence} seriously?",
-                            # 1,
-                            # "  \nYou really think you can win with that?",
-                            # 1.5,
-                            # "  \nThe audacity",
-                            # 0.5,
-                            # "  \nThe gall",
-                            # 0.5,
-                            # "  \nThe gumption",
-                            # 0.5,
-                            # "  \nThe nerve",
-                            # 0.5,
-                            # "  \nThe temerity",
-                            # 0.5,
-                            # "  \nThe chutzpah",
-                            # 0.5,
-                            # "  \nThe brass",
-                            # 0.5,
-                            # "  \nThe effrontery",
-                            # 0.5,
-                            # "  \nThe impudence",
-                            # 0.5,
-                            # "  \nThe insolence",
-                            # 0.5,
-                            # "  \nThe impertinence",
-                            # 0.5,
-                            # "  \nThe rudeness",
-                            # 0.5,
-                            # "  \nThe presumption",
-                            # 0.5,
-                            # "  \nThe cheek",
+                            ".....",
+                            0.5,
+                            f"{mock_initial_defence} seriously?",
+                            1,
+                            "  \nYou really think you can win with that?",
+                            1.5,
+                            "  \nThe audacity",
+                            0.5,
+                            "  \nThe gall",
+                            0.5,
+                            "  \nThe gumption",
+                            0.5,
+                            "  \nThe nerve",
+                            0.5,
+                            "  \nThe temerity",
+                            0.5,
+                            "  \nThe chutzpah",
+                            0.5,
+                            "  \nThe brass",
+                            0.5,
+                            "  \nThe effrontery",
+                            0.5,
+                            "  \nThe impudence",
+                            0.5,
+                            "  \nThe insolence",
+                            0.5,
+                            "  \nThe impertinence",
+                            0.5,
+                            "  \nThe rudeness",
+                            0.5,
+                            "  \nThe presumption",
+                            0.5,
+                            "  \nThe cheek",
                         ]
                     )
                 )
@@ -231,10 +230,10 @@ elif st.session_state["PHASE"] == "Lawyer Reveal":
                 st.write_stream(
                     type_writer(
                         phrases=[
-                            # "  \nTO TALK BACK ! ! !",
-                            # 2,
+                            "  \nTO TALK BACK ! ! !",
+                            2,
                             "  \nI'll be representing this poor boy you siren!",
-                            # 2,
+                            2,
                         ]
                     )
                 )
@@ -272,17 +271,54 @@ elif st.session_state["PHASE"] == "Argumentation":
     st.session_state.messages.append(AIMessage(content=response))
 
 elif st.session_state["PHASE"] == "Saran Interuption":
-    chat = st.empty()
-    with chat:
-        st.write_stream(
-            type_writer(
-                phrases=[
-                    "  \nA lone figure enters the courtroom",
-                    "  \nHis 6 foot eleven inch body casts a shadow which engulfs the room",
-                    "  \n'..... ...... no one'",
-                    "  \n### 'NO ONE TALKS TO POOKIE LIKE THAT'",
-                    "  \nIt's Saran!",
-                ],
-                letters_per_sec=35,
+    if "run away" not in st.session_state:
+        chat = st.empty()
+        with chat:
+            st.write_stream(
+                type_writer(
+                    phrases=[
+                        "  \nA lone figure enters the courtroom",
+                        "  \nHis 6 foot eleven inch body casts a shadow which engulfs the room",
+                        "  \n'..... ...... no one'",
+                        "  \n### 'NO ONE TALKS TO POOKIE LIKE THAT'",
+                        "  \nIt's Saran!",
+                    ],
+                )
             )
-        )
+        st.audio(data="audio/WhatsApp Audio 2025-02-13 at 8.18.06 PM.mp4")
+        st.markdown("Only way out is to take Saran's hand and run away")
+    if ran_away := st.button(label="run away", key="run away"):
+        logger.info("MOCHI RAN AWAY")
+        st.session_state["PHASE"] = "Concession"
+        st.rerun()
+
+elif st.session_state["PHASE"] == "Concession":
+    st.title("Will you be my Valentine Princess? 💝")
+    st.markdown(
+        """Now that I've saved you\nYou have to concede to one of the following? ......\n......as an ailment to my aching heart? 🥺👉🏻👈🏻"""
+    )
+    cols = st.columns(3)
+    with cols[0]:
+        if voice := st.button(label="Voice Hearing Privileges"):
+            logger.info("Mochi conceeded voice")
+            st.session_state["PHASE"] = "Final"
+            st.rerun()
+    with cols[1]:
+        if face := st.button(label="Face Seeing Privileges"):
+            logger.info("Mochi conceeded face")
+            st.session_state["PHASE"] = "Final"
+            st.rerun()
+    with cols[2]:
+        if poem := st.button(label="A Poem"):
+            logger.info("Mochi conceeded poem")
+            st.session_state["PHASE"] = "Final"
+            st.rerun()
+
+elif st.session_state["PHASE"] == "Final":
+    st.markdown(
+        """
+# 🫂
+
+... thanks"""
+    )
+    logger.info("END")
