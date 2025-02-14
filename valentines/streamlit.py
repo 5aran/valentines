@@ -153,7 +153,7 @@ elif st.session_state["PHASE"] == "Concession":
             st.session_state["PHASE"] = "Final"
             st.rerun()
     with cols[2]:
-        if poem := st.button(label="A Poem"):
+        if poem := st.button(label="A handwritten poem"):
             st.session_state["PHASE"] = "Final"
             st.rerun()
 
@@ -162,5 +162,5 @@ elif st.session_state["PHASE"] == "Final":
         """
 # 🫂
 
-... thanks"""
+... Yay!"""
     )
